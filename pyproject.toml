@@ -1,0 +1,50 @@
+[project]
+name = "markdown-to-html"
+version = "0.1.0"
+description = ""
+authors = [{ name = "Or Levi", email = "orlevi128@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.0.0"
+ruff = "^0.11.0"
+mypy = "^1.15.0"
+cibuildwheel = "^2.23.1"
+
+[tool.poetry]
+packages = [{ include = "markdown_to_html", from = "src" }]
+
+include = [
+    # C extensions must be included in the wheel distributions
+    { path = "src/markdown_to_html/_go/html-to-markdown.dylib", format = "wheel" },
+    { path = "src/markdown_to_html/_go/html-to-markdown.so", format = "wheel" },
+    { path = "src/markdown_to_html/_go/html-to-markdown.dll", format = "wheel" },
+]
+
+[tool.poe.tasks]
+lint = "ruff check src tests"
+format = [
+    { cmd = "ruff format src tests" },
+    { cmd = "ruff check src tests --fix" },
+]
+"format:unsafe" = [
+    { cmd = "ruff format src tests" },
+    { cmd = "ruff check src tests --fix --unsafe-fixes" },
+]
+test = "pytest"
+mypy = "mypy -p markdown_to_html -p tests"
+
+[tool.pytest.ini_options]
+addopts = "--cov=markdown_to_hml --cov tests -v"
+
+[tool.poetry.build]
+generate-setup-file = false
+script = "build.py"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
