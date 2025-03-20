@@ -1,5 +1,6 @@
 import subprocess
 import sys
+from pathlib import Path
 
 
 def get_lib_ext() -> str:
@@ -16,6 +17,9 @@ def get_lib_ext() -> str:
 def build_go_extension() -> None:
     """Compile the Go shared library"""
 
+    current_dir = Path(__file__).parent
+    go_dir = current_dir / "src" / "go_html_to_markdown" / "_go"
+
     subprocess.run(
         [
             "go",
@@ -26,7 +30,7 @@ def build_go_extension() -> None:
             "html-to-markdown.go",
         ],
         check=True,
-        cwd="./src/go_html_to_markdown/_go",
+        cwd=str(go_dir),
     )
 
 

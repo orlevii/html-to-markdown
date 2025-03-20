@@ -2,24 +2,34 @@ package main
 
 import (
 	"C"
-	// "log"
-
-	md "github.com/tomkosm/html-to-markdown"
-	"github.com/tomkosm/html-to-markdown/plugin"
+	"log"
+)
+import (
+	"github.com/JohannesKaufmann/html-to-markdown/v2/converter"
+	"github.com/JohannesKaufmann/html-to-markdown/v2/plugin/base"
+	"github.com/JohannesKaufmann/html-to-markdown/v2/plugin/commonmark"
+	"github.com/JohannesKaufmann/html-to-markdown/v2/plugin/table"
 )
 
 //export ConvertHTMLToMarkdown
 func ConvertHTMLToMarkdown(html *C.char) *C.char {
-	converter := md.NewConverter("", true, nil)
-	converter.Use(plugin.GitHubFlavored())
+	conv := converter.NewConverter(
+		converter.WithPlugins(
+			base.NewBasePlugin(),
+			commonmark.NewCommonmarkPlugin(
+				commonmark.WithStrongDelimiter("__"),
+			),
 
-	markdown, err := converter.ConvertString(C.GoString(html))
+			table.NewTablePlugin(table.WithSkipEmptyRows(true)),
+		),
+	)
+
+	markdown, err := conv.ConvertString(C.GoString(html))
 	if err != nil {
-		// log.Fatal(err)
+		log.Fatal(err)
 	}
 	return C.CString(markdown)
 }
 
 func main() {
-	// This function is required for the main package
 }
