@@ -1,0 +1,48 @@
+[project]
+name = "go-html-to-markdown"
+version = "0.1.0"
+description = "Fast markdown to html conversion using Golang"
+authors = [{ name = "Or Levi", email = "orlevi128@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.0.0"
+ruff = "^0.11.0"
+mypy = "^1.15.0"
+
+[tool.poetry]
+packages = [{ include = "go_html_to_markdown", from = "src" }]
+
+include = [
+    { path = "src/go_html_to_markdown/_go/html-to-markdown.dylib", format = "wheel" },
+    { path = "src/go_html_to_markdown/_go/html-to-markdown.so", format = "wheel" },
+    { path = "src/go_html_to_markdown/_go/html-to-markdown.dll", format = "wheel" },
+]
+
+[tool.poe.tasks]
+lint = "ruff check src tests"
+format = [
+    { cmd = "ruff format src tests" },
+    { cmd = "ruff check src tests --fix" },
+]
+"format:unsafe" = [
+    { cmd = "ruff format src tests" },
+    { cmd = "ruff check src tests --fix --unsafe-fixes" },
+]
+test = "pytest"
+mypy = "mypy -p go_html_to_markdown -p tests"
+
+[tool.pytest.ini_options]
+addopts = "--cov=go_html_to_markdown --cov tests -v"
+
+[tool.poetry.build]
+generate-setup-file = false
+script = "build.py"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
