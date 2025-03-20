@@ -26,7 +26,7 @@ def build_go_extension() -> None:
             "html-to-markdown.go",
         ],
         check=True,
-        cwd="./src/html_to_markdown/_go",
+        cwd="./src/go_html_to_markdown/_go",
     )
 
 

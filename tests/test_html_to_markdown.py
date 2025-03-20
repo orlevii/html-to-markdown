@@ -1,4 +1,4 @@
-from html_to_markdown import html_to_markdown
+from go_html_to_markdown import html_to_markdown
 
 
 def test_binding() -> None:
