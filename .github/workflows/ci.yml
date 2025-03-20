@@ -36,13 +36,9 @@ jobs:
       - name: Run tests
         run: poetry run pytest
 
-      - name: wheel name
-        id: wheel_name
-        run: echo "wheel_name=${OSTYPE}-$(arch)-py${{ matrix.python }}" >> $GITHUB_OUTPUT
-
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ steps.wheel_name.outputs.wheel_name }}
+          name: wheels-${{ matrix.os }}-${{ matrix.python}}
           path: dist
 
   build_sdist:
