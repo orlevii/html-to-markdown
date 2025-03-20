@@ -30,7 +30,7 @@ jobs:
         run: poetry install --no-root --only=dev
 
       - name: Install whl
-        run: pip install ./dist/*.whl
+        run: poetry run pip install ./dist/*.whl
 
       - name: Run tests
         run: poetry run pytest
