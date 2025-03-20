@@ -13,7 +13,7 @@ def get_lib_ext() -> str:
         raise RuntimeError("Unsupported platform")
 
 
-def build_go_extension():
+def build_go_extension() -> None:
     """Compile the Go shared library"""
 
     subprocess.run(
@@ -26,11 +26,11 @@ def build_go_extension():
             "html-to-markdown.go",
         ],
         check=True,
-        cwd="./src/markdown_to_html/_go",
+        cwd="./src/html_to_markdown/_go",
     )
 
 
-def main():
+def main() -> None:
     build_go_extension()
     print("Build complete!")
 
