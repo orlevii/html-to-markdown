@@ -21,10 +21,10 @@ jobs:
       - name: Go Bin
         id: go-bin
         run: |
-          GO_EXEC=$(which go)
+          export GO_EXEC="$(which go)"
           echo "GO_EXEC=$GO_EXEC"
-          GO_BIN=$(dirname $GO_EXEC)
-          echo "GO_BIN=$GO_BIN
+          GO_BIN="$(dirname ${GO_EXEC})"
+          echo "GO_BIN=$GO_BIN"
           echo "go-bin=$GO_BIN" >> $GITHUB_OUTPUT
 
       - name: Install cibuildwheel
